@@ -11,10 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install Heroku CLI
-        run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
-          echo "✅ Heroku CLI installed"
       - name: Set Heroku stack to container
         run: |
           heroku stack:set container -a ${{ secrets.HEROKU_APP_NAME }}
