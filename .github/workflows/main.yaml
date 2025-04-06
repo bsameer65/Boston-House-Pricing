@@ -11,8 +11,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set Heroku stack to container
+      - name: Install Heroku CLI and Set Stack
         run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+          export PATH="/usr/local/bin:$PATH"
+          
+          echo "machine api.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
+          echo "machine git.heroku.com\n  login ${{ secrets.HEROKU_EMAIL }}\n  password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc
+
           heroku stack:set container -a ${{ secrets.HEROKU_APP_NAME }}
 
       - name: Build, Push and Release a Docker container to Heroku
